@@ -1,21 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react'
+import { Alert, StyleSheet, View } from 'react-native'
+import { Navbar } from './src/components/Navbar'
+import { MainScreen } from './src/screens/MainScreen'
+import { TodoScreen } from './src/screens/TodoScreen'
 
-export default function App() {
-  return (
+export default App = () => {
+  const [todoList, setTodoList] = useState([
+    {id: '1', title: 'Todooooooooooooooooooooooooooooooooooooooooo'},
+    {id: '2', title: 'Todo 2 ddd long title real very very long'}
+  ])
+  const [todoId, setTodoId] = useState('2')
+  const getTodo = id => todoList.find(todo => todo.id === id)
+  const addTodo = title => {
+    setTodoList(prevTodoList => [
+      ...prevTodoList,
+      {
+        id: Date.now().toString(),
+        title
+      }
+    ])
+  }
+  const removeTodo = id => {
+    const todo = getTodo(id)
+    Alert.alert(
+      'Remove element',
+      `Are You sure you'r want to delete "${todo.title}"`,
+      [
+        {
+          text: 'Cancel',
+          style: 'neutral'
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            setTodoId(null)
+            setTodoList(prevTodoList => prevTodoList.filter(todo => todo.id !== id))
+          },
+          style: 'negative'
+        }
+      ],
+      { cancelable: true }
+    )
+  }
+
+  return <View>
+    <Navbar />
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {todoId
+        ? <TodoScreen
+          todo={getTodo(todoId)}
+          goBack={() => {setTodoId(null)}}
+          removeTodo={removeTodo}
+        />
+        : <MainScreen
+          todoList={todoList}
+          addTodo={addTodo}
+          removeTodo={removeTodo}
+          setTodoId={setTodoId}
+        />
+      }
     </View>
-  );
+    <StatusBar style='auto' />
+  </View>
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    paddingHorizontal: 30,
+    paddingVertical: 20
+  }
+})
