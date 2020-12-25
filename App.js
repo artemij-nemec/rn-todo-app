@@ -7,10 +7,10 @@ import { TodoScreen } from './src/screens/TodoScreen'
 
 export default App = () => {
   const [todoList, setTodoList] = useState([
-    {id: '1', title: 'Todooooooooooooooooooooooooooooooooooooooooo'},
-    {id: '2', title: 'Todo 2 ddd long title real very very long'}
+    // {id: '1', title: 'Todooooooooooooooooooooooooooooooooooooooooo'},
+    // {id: '2', title: 'Todo 2 ddd long title real very very long'}
   ])
-  const [todoId, setTodoId] = useState('2')
+  const [todoId, setTodoId] = useState(null)
   const getTodo = id => todoList.find(todo => todo?.id === id)
   const addTodo = title => {
     setTodoList(prevTodoList => [
