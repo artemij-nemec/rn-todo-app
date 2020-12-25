@@ -11,7 +11,7 @@ export default App = () => {
     {id: '2', title: 'Todo 2 ddd long title real very very long'}
   ])
   const [todoId, setTodoId] = useState('2')
-  const getTodo = id => todoList.find(todo => todo.id === id)
+  const getTodo = id => todoList.find(todo => todo?.id === id)
   const addTodo = title => {
     setTodoList(prevTodoList => [
       ...prevTodoList,
@@ -43,6 +43,16 @@ export default App = () => {
       { cancelable: true }
     )
   }
+  const saveTodo = (id, title) => {
+    setTodoList(prevTodoList => {
+      return prevTodoList.map(todo => {
+        if (todo.id === id) {
+          todo.title = title
+        }
+        return todo
+      })
+    })
+  }
 
   return <View>
     <Navbar />
@@ -52,6 +62,7 @@ export default App = () => {
           todo={getTodo(todoId)}
           goBack={() => {setTodoId(null)}}
           removeTodo={removeTodo}
+          saveTodo={saveTodo}
         />
         : <MainScreen
           todoList={todoList}
