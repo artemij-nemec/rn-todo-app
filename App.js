@@ -1,3 +1,5 @@
+import AppLoading from 'expo-app-loading'
+import * as Font from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import React, { useState } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
@@ -5,12 +7,25 @@ import { Navbar } from './src/components/Navbar'
 import { MainScreen } from './src/screens/MainScreen'
 import { TodoScreen } from './src/screens/TodoScreen'
 
+const loadApp = async () => {
+  await Font.loadAsync({
+    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
+  })
+}
+
 export default App = () => {
-  const [todoList, setTodoList] = useState([
-    // {id: '1', title: 'Todooooooooooooooooooooooooooooooooooooooooo'},
-    // {id: '2', title: 'Todo 2 ddd long title real very very long'}
-  ])
+  const [isReady, setIsReady] = useState(false)
+  const [todoList, setTodoList] = useState([])
   const [todoId, setTodoId] = useState(null)
+
+  if(!isReady) {
+    return <AppLoading
+      startAsync={loadApp}
+      onError={err => console.log(err)}
+      onFinish={() => setIsReady(true)}
+    />
+  }
   const getTodo = id => todoList.find(todo => todo?.id === id)
   const addTodo = title => {
     setTodoList(prevTodoList => [
