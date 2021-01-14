@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Alert, Button, StyleSheet, TextInput, View } from 'react-native'
 import { THEME } from '../theme'
@@ -22,7 +23,10 @@ export const AddTodo = ({ onSubmit }) => {
       autoCorrect={false}
       autoCapitalize='none'
     />
-    <Button title='Add' onPress={pressHandler} />
+    <MaterialIcons.Button
+      onPress={pressHandler}
+      name="post-add"
+    >Add Todo</MaterialIcons.Button>
   </View>
 }
 
@@ -33,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   input: {
-    width: '80%',
+    width: '70%',
     padding: 10,
     borderBottomColor: THEME.MAIN_COLOR,
     borderBottomWidth: 2,
