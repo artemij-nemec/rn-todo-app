@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { Alert, Button, StyleSheet, TextInput, View } from 'react-native'
+import { Alert, Keyboard, StyleSheet, TextInput, View } from 'react-native'
 import { THEME } from '../theme'
 
 export const AddTodo = ({ onSubmit }) => {
@@ -9,6 +9,7 @@ export const AddTodo = ({ onSubmit }) => {
     if (value.trim()) {
       onSubmit(value)
       setValue('')
+      Keyboard.dismiss()
     } else {
       Alert.alert('TODO can\'t be empty!' )
     }
