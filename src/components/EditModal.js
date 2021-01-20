@@ -5,12 +5,16 @@ import AppButton from './ui/AppButton'
 
 export const EditModal = ({ visible, onCancel, value, onSave }) => {
     const [title, setTitle] = useState(value)
-    const onSaveHandler = () => {
+    const saveHandler = () => {
         if (title.trim().length) {
             onSave(title)
         } else {
             Alert.alert(`Todo can't be empty`)
         }
+    }
+    const cancelHandler = () => {
+        setTitle(value)
+        onCancel()
     }
 
     return <Modal
@@ -31,14 +35,14 @@ export const EditModal = ({ visible, onCancel, value, onSave }) => {
             <View style={styles.buttonsContainer}>
                 <View style={styles.button}>
                     <AppButton
-                        onPress={onCancel}
+                        onPress={cancelHandler}
                         color={THEME.DANGER_COLOR}
                     >
                         Cancel
                     </AppButton>
                 </View>
                 <View style={styles.button}>
-                    <AppButton onPress={onSaveHandler}>Save</AppButton>
+                    <AppButton onPress={saveHandler}>Save</AppButton>
                 </View>
             </View>
         </View>

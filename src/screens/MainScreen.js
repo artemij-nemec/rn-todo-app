@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dimensions, FlatList, Image, StyleSheet, View } from 'react-native'
+import emptyList from '../../assets/empty-list.jpg'
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
-import emptyList from '../../assets/empty-list.jpg'
+import { ScreenContext } from '../context/screen/screenContext'
+import { TodoContext } from '../context/todo/todoContext'
 import { THEME } from '../theme'
 
-export const MainScreen = ({ todoList, addTodo, removeTodo, setTodoId }) => {
+export const MainScreen = () => {
+    const { todos, addTodo, removeTodo } = useContext(TodoContext)
+    const { changeScreen } = useContext(ScreenContext)
     const getWidth = () => {
         return Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2
     }
@@ -21,11 +25,11 @@ export const MainScreen = ({ todoList, addTodo, removeTodo, setTodoId }) => {
     })
     return <>
         <AddTodo onSubmit={addTodo} />
-        {todoList.length
+        {todos.length
             ? <View style={{ width: deviceWidth }}>
                 <FlatList
-                    data={todoList}
-                    renderItem={({ item }) => <Todo todo={item} onRemove={removeTodo} onOpen={setTodoId} />}
+                    data={todos}
+                    renderItem={({ item }) => <Todo todo={item} onRemove={removeTodo} onOpen={changeScreen} />}
                     keyExtractor={item => item.id}
                     style={styles.todoListContainer}
                 />
